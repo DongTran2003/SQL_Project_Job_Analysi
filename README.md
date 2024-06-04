@@ -200,6 +200,7 @@ Most Common Required Skills for the top 10 Data Analyst roles in the USA:
 - Excel: 4 occurrences
 - Tableau: 4 occurrences
 
-![skills required by top 10 high paying DA jobs](Assets/skills_required.png)
+<img src= "Assets/skills_required.png" alt="your-image-description" style="border: 2px solid black;">
+
 *Bar graph visualizing the count of skills for the top 10 paying jobs for data analysts, created by PowerBI*
 
