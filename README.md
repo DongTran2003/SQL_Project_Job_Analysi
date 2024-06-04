@@ -22,7 +22,7 @@ In order to fully explore the job market for data analysts, I utilised the follo
 # Data exploration
 This section explores the dataset to better comprehend what our dataset is about
 
-![relational schema of the dataset](Assets\relational_schema.png)
+![relational schema of the dataset](Assets/relational_schema.png)
 
 
  First, we need to see total number of DA jobs in the USA
@@ -200,6 +200,6 @@ Most Common Required Skills for the top 10 Data Analyst roles in the USA:
 - Excel: 4 occurrences
 - Tableau: 4 occurrences
 
-![skills required by top 10 high paying DA jobs](Assets\skills_required.png)
+![skills required by top 10 high paying DA jobs](Assets/skills_required.png)
 *Bar graph visualizing the count of skills for the top 10 paying jobs for data analysts, created by PowerBI*
 
