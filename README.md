@@ -200,7 +200,41 @@ Most Common Required Skills for the top 10 Data Analyst roles in the USA:
 - Excel: 4 occurrences
 - Tableau: 4 occurrences
 
-<img src= "Assets/skills_required.png" alt="your-image-description" style="border: 2px solid black;">
+<img src= "Assets/skills_required.png" alt="your-image-description" style="border: 2px solid grey;">
 
 *Bar graph visualizing the count of skills for the top 10 paying jobs for data analysts, created by PowerBI*
 
+### 3. What are the most high-indemand skills for DA in the States?
+This query helps identify the top 5 highest in demand skills for Data Analyst jobs in the USA, along with the frequency percentages that each skill occured in a job postings
+
+```SQL
+WITH da_jobs AS (
+  SELECT COUNT(job_id) as job_count
+  FROM job_postings_fact
+  WHERE job_title_short = 'Data Analyst' AND 
+    job_country = 'United States'
+  )
+
+SELECT 
+    sd.skills,
+    COUNT(skills_job_dim.job_id) AS number_of_posts,
+    COUNT(skills_job_dim.job_id) * 100 / (
+      SELECT job_count FROM da_jobs
+    ) as percentage_in_postings,
+    sd.type
+FROM skills_job_dim
+JOIN skills_dim as sd
+    ON sd.skill_id = skills_job_dim.skill_id
+JOIN job_postings_fact AS job_postings
+    ON job_postings.job_id = skills_job_dim.job_id
+
+WHERE job_postings.job_title_short = 'Data Analyst' AND
+    job_postings.job_country = 'United States'
+GROUP BY sd.skill_id
+ORDER BY number_of_posts DESC
+LIMIT 5
+```
+From the result, it can be seen that SQL remains the most demanding skills from U.S recruiters, with 34505 posts and accounts for 50% of all job postings, followed by excel (40%), visualization tool Tableau, and Python and R as programming language. 
+
+<img src= "Assets/top_demanding_skills.png" alt="your-image-description" style="border: 2px solid grey;">
+*Bar graph visualizing the count of top demanding skills for U.S data analysts, created by PowerBI*

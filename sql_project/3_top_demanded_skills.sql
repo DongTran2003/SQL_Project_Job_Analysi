@@ -1,12 +1,19 @@
 /*
 Identify the top 5 highest in demand skills for Data Analyst jobs in the USA
 */
-
+WITH da_jobs AS (
+  SELECT COUNT(job_id) as job_count
+  FROM job_postings_fact
+  WHERE job_title_short = 'Data Analyst' AND 
+    job_country = 'United States'
+  )
 
 SELECT 
-    COUNT(skills_job_dim.job_id) AS number_of_posts,
     sd.skills,
-    sd.skill_id,
+    COUNT(skills_job_dim.job_id) AS number_of_posts,
+    COUNT(skills_job_dim.job_id) * 100 / (
+      SELECT job_count FROM da_jobs
+    ) as percentage_in_postings,
     sd.type
 FROM skills_job_dim
 JOIN skills_dim as sd
