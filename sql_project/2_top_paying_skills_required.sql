@@ -1,5 +1,5 @@
 /*
-Identify the skills required for that top 10 Data Analyst jobs
+Identify the skills required for the top 10 Data Analyst rols in the USA
 */
 
 WITH top_paying_jobs AS (
@@ -31,7 +31,7 @@ JOIN top_paying_jobs
 ORDER BY salary_year_avg DESC
 
 /*
-Most Common Skills:
+Most Common Required Skills for the top 10 Data Analyst roles in the USA:
 
 Python: 5 occurrences
 SQL: 4 occurrences

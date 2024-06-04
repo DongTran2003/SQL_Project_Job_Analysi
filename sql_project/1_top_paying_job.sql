@@ -15,7 +15,7 @@ LEFT JOIN company_dim as cd
     ON cd.company_id = job_postings_fact.company_id
 WHERE job_title_short = 'Data Analyst' AND
     job_country = 'United States' AND
-    salary_year_avg IS NOT NULL
+    salary_year_avg IS NOT NULL 
 ORDER BY salary_year_avg DESC
 LIMIT 10
 
