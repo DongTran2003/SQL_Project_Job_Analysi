@@ -3,7 +3,7 @@ This project explores the current data job market in the United States, which fo
 
 # About the project
 This project was inspired by a desire to identify high-paying and in-demand skills, lessening the burden of labour for others in search of optimal positions, and to better navigate the data analyst job market in the USA. This project aims to address the following 4 questions:
-1. What are the highest-paid DA roles in the States?
+1. What are the highest paying DA roles in the States?
 2. What skills are required for these top-paying roles?
 3. What are the most high in-demand skills for DAs in the States?
 4. What are the most optimal skills for DAs to learn?
@@ -25,7 +25,7 @@ This section explores the dataset to better understand what our dataset is about
 ![relational schema of the dataset](Assets/relational_schema.png)
 *The relational schema of the dataset*
 
- First, we need to see total number of job postings in the USA
+ First, we need to see the total number of job postings in the USA
 ```SQL
 SELECT
     COUNT(*) AS number_of_post
@@ -39,7 +39,7 @@ This query gives us the result as below:
 | -------- | 
 | 206943  | 
 
-Great! It's now time to explore what job titles appeared most of the time in the U.S job market:
+Great! It's now time to explore what job titles appeared most of the time in the U.S job market.
 ```SQL
 SELECT 
     job_title_short AS job_title,
@@ -51,9 +51,9 @@ WHERE job_country = 'United States'
 GROUP BY job_title_short
 ORDER BY job_title_count DESC
 ```
-The table below counts the number of time that each title mentioned in all U.S job postings, how much percentage it accounts for, and the average annual salary for each title
+The table below counts the number of times each job title is mentioned in all U.S. job postings, the percentage it accounts for, and the average annual salary for each title.
 
-Job_title | job_title_count | percentage | yearly_salary
+job_title | job_title_count | percentage | yearly_salary
 --- | --- | --- | ---
 Data Analyst | 67956 | 32.84 | 94504
 Data Scientist | 59045 | 28.53 | 139967
@@ -131,9 +131,9 @@ Exciting! It is time to start addressing the major 4 questions of the DA jobs in
 # Analysis
 For this project, each query looked into a different facet of the employment market for data analysts. Here's how I answered each one:
 
-### 1. What are the highest-paid DA roles in the States?
+### 1. What are the highest paying DA roles in the States?
 
-To find the top 10 highest-paid roles, I filtered *Data Analyst* title based on country and average yearly salary
+To find the top 10 highest paying roles, I filtered *Data Analyst* title based on country and average yearly salary
 
 ```SQL
 SELECT
@@ -155,20 +155,21 @@ LIMIT 10
 ```
 - From the result, the top 10 paying DA roles range from *$254,000* to *$375,000*, with companies like Illuminate Mission Solutions, Citigroup, Torc Robotics offering the highest paying jobs. 
 
-- *HC Data Analyst, Senior* and *Sr Data Analyst** offered by Illuminate Mission Solutions appears to be the highest-paid in the industry, with $375000 annual salary. 
+- *HC Data Analyst, Senior* and *Sr Data Analyst* offered by Illuminate Mission Solutions appears to be the highest-paid in the industry, with $375000 annual salary. 
 
-| job_title                                                          | job_location     | job_schedule_type | job_work_from_home | salary_year_avg | job_posted_date       | company_name                  |
-|--------------------------------------------------------------------|------------------|---------------|----------------|---------------------|------------------------|--------------------------------|
-| HC Data Analyst , Senior                                           | Bethesda, MD     | Full-time     | No             | 375000.0            | 2023-08-18 07:00:22   | Illuminate Mission Solutions   |
-| Head of Infrastructure Management & Data Analytics - Financial...  | Jacksonville, FL | Full-time     | No             | 375000.0            | 2023-07-03 11:30:01   | Citigroup, Inc                 |
-| Sr Data Analyst                                                    | Bethesda, MD     | Full-time     | No             | 375000.0            | 2023-04-05 12:00:12   | Illuminate Mission Solutions   |
-| Director of Safety Data Analysis                                   | Austin, TX       | Full-time     | No             | 375000.0            | 2023-04-21 08:01:55   | Torc Robotics                  |
-| Data Analyst                                                       | San Francisco, CA| Full-time     | No             | 350000.0            | 2023-06-22 07:00:59   | Anthropic                      |
-| Head of Data Analytics                                             | Austin, TX       | Full-time     | No             | 350000.0            | 2023-10-23 05:01:05   | Care.com                       |
-| Director of Analytics                                              | Anywhere         | Full-time     | Yes            | 336500.0            | 2023-08-23 12:04:42   | Meta                           |
-| Research Scientist                                                 | San Francisco, CA| Full-time     | No             | 285000.0            | 2023-04-19 18:04:21   | OpenAI                         |
-| Associate Director- Data Insights                                  | Anywhere         | Full-time     | Yes            | 255829.5            | 2023-06-18 16:03:12   | AT&T                           |
-| Partner Technology Manager, Data Analytics and AI                  | Austin, TX       | Full-time     | No             | 254000.0            | 2023-07-28 13:01:20   | Google                         |
+| job_title                                                             | job_location      | company_name                 | salary_year_avg | job_schedule_type | job_work_from_home | job_posted_date        |
+|-----------------------------------------------------------------------|-------------------|------------------------------|----------------------|----------------|-----------------|------------------------|
+| Head of Infrastructure Management & Data Analytics - Financial...     | Jacksonville, FL  | Citigroup, Inc               | $375,000.0           | Full-time      | No              | 2023-07-03 11:30:01    |
+| HC Data Analyst , Senior                                              | Bethesda, MD      | Illuminate Mission Solutions | $375,000.0           | Full-time      | No              | 2023-08-18 07:00:22    |
+| Director of Safety Data Analysis                                      | Austin, TX        | Torc Robotics                | $375,000.0           | Full-time      | No              | 2023-04-21 08:01:55    |
+| Sr Data Analyst                                                       | Bethesda, MD      | Illuminate Mission Solutions | $375,000.0           | Full-time      | No              | 2023-04-05 12:00:12    |
+| Head of Data Analytics                                                | Austin, TX        | Care.com                     | $350,000.0           | Full-time      | No              | 2023-10-23 05:01:05    |
+| Data Analyst                                                          | San Francisco, CA | Anthropic                    | $350,000.0           | Full-time      | No              | 2023-06-22 07:00:59    |
+| Director of Analytics                                                 | Anywhere          | Meta                         | $336,500.0           | Full-time      | Yes             | 2023-08-23 12:04:42    |
+| Research Scientist                                                    | San Francisco, CA | OpenAI                       | $285,000.0           | Full-time      | No              | 2023-04-19 18:04:21    |
+| Associate Director- Data Insights                                     | Anywhere          | AT&T                         | $255,829.5           | Full-time      | Yes             | 2023-06-18 16:03:12    |
+| Partner Technology Manager, Data Analytics and AI                     | Austin, TX        | Google                       | $254,000.0           | Full-time      | No              | 2023-07-28 13:01:20    |
+
 
 ### 2. What skills are required for these top-paying roles?
 
@@ -184,11 +185,9 @@ WITH top_paying_jobs AS (
     FROM job_postings_fact AS job_postings
     LEFT JOIN company_dim as cd 
         ON cd.company_id = job_postings.company_id
-
     WHERE job_title_short = 'Data Analyst' AND
         job_country = 'United States' AND
         salary_year_avg IS NOT NULL
-
     ORDER BY salary_year_avg DESC
    LIMIT 10
 )
@@ -204,7 +203,7 @@ JOIN top_paying_jobs
 ORDER BY salary_year_avg DESC
 ```
 
-Most Common Required Skills for the top 10 Data Analyst roles in the USA:
+Most Common Required Skills for the top 10 highest paying Data Analyst roles in the USA:
 
 - Python: 5 occurrences
 - SQL: 4 occurrences
@@ -262,9 +261,9 @@ From the result, it can be seen that SQL remains the most demanding skills from 
 
 ### 4. What are the most optimal skills for DA to learn?
 
-This section identifies the most optimal skills for DA jobs in the U.S market, based on the findings from queries above. The identified skills will have to satisfy both in high salaries and high demand, offering a practical and informative roadmap for DA entering the job market. 
+This section identifies the most optimal skills for DA jobs in the U.S market, based on the findings from queries above. The identified skills will have to satisfy both in high salaries and high demand, offering a practical and informative roadmap for DAs entering the job market. 
 
-As mentioned in the ***Data exploration*** section, the average salary for data analysts in the U.S is $94,503 US dollars. For this reason, a job's yearly salary needs to be higher than this average point to be considered a high-paid job. The query below identifies the top 20 skills associated with high-paid jobs and are high in-demand prioritised by the number of times mentioned in hiring posts.
+As mentioned in the ***Data exploration*** section, the average salary for data analysts in the U.S is *$94,503* US dollars. For this reason, a job's yearly salary needs to be higher than this average point to be considered a high-paid job. The query below identifies the top 20 skills associated with high-paid jobs and are high in-demand, prioritised by the number of times mentioned in hiring posts.
 ```SQL
 --- Identify the average salary for DA jobs in the U.S
 WITH average_salary AS (
@@ -331,7 +330,7 @@ CROSS JOIN average_salary;
 
 
 The result from the query gives us some interesting insights:
-1. The highest average salaries are associated with *spark* ($116,324), *hadoop* ($114,686), and snowflake ($112,329), indicating that expertise in these technologies is highly valued in the Data Analyst job market in the United States.
+1. The highest average salaries in the top 20 are associated with *spark* ($116,324), *hadoop* ($114,686), and snowflake ($112,329), indicating that expertise in these technologies is highly valued in the Data Analyst job market in the United States.
 2. While *sql* has the highest number of posts (2514), its average salary ($97,438) is slightly above the high salary threshold ($95,000) but not among the top earners. This suggests that while SQL is a fundamental and highly demanded skill, it does not command the top salaries compared to more specialized skills like spark and hadoop.
 3. Skills such as *python*, *tableau*, and *azure* are notable for their balance of demand and pay. *Python* (1427 posts, $103,390), *tableau* (1366 posts, $99,496), and *azure* (213 posts, $105,435) highlight the growing importance of versatile programming, data visualization, and cloud computing skills in the field, with salaries significantly higher than the average for Data Analysts.
 
@@ -342,13 +341,13 @@ The result from the query gives us some interesting insights:
 
 - **Top Salaries**: The highest-paid Data Analyst roles range from $254,000 to $375,000 annually. Illuminate Mission Solutions offers the highest salary for the position of HC Data Analyst, Senior at $375,000.
 - **Prominent Companies**: Companies like Citigroup, Torc Robotics, Anthropic, and Meta are also among the top payers, highlighting the lucrative opportunities in prominent tech and financial institutions.
-- **Common Job Titles**: Titles such as Director of Safety Data Analysis and Head of Infrastructure Management & Data Analytics are among the highest paying, reflecting a trend towards senior and leadership positions in data analytics.
 
 **2. Most In-Demand Skills**
 - **SQL**: SQL is the most demanded skill for Data Analyst roles in the United States, appearing in 50% of job postings.
 - **Programming Languages**: Python and R are crucial programming skills, reflecting their importance in data manipulation and statistical analysis.
 - **Visualization Tools**: Tableau is highly valued for data visualization, appearing in a significant number of job postings.
 - **Excel**: Excel remains a fundamental skill, highlighting its continued relevance in data analysis tasks.
+
 **3. Optimal Skills for Data Analysts**
 
 - **High-Paying Skills**: Skills such as Spark ($116,324), Hadoop ($114,686), and Snowflake ($112,329) offer the highest salaries in the top 20 skills, indicating a premium for expertise in these areas.
