@@ -1,12 +1,12 @@
 # Introduction
-This project explores the current data job market in the United States, which focuses on DA (data analyst) roles. The project gives insights about top paid jobs, identifies highest in-demand skills, and proposes the most optimal skills for DA entering the job market within the USA.
+This project explores the current data job market in the United States, which focuses on DA (data analyst) roles. The project gives insights about top paid jobs, identifies highest in-demand skills, and proposes the most optimal skills for DAs entering the job market within the USA.
 
 # About the project
 This project was inspired by a desire to identify high-paying and in-demand skills, lessening the burden of labour for others in search of optimal positions, and to better navigate the data analyst job market in the USA. This project aims to address the following 4 questions:
 1. What are the highest-paid DA roles in the States?
 2. What skills are required for these top-paying roles?
-3. What are the most high-indemand skills for DA in the States?
-4. What are the most optimal skills for DA to learn?
+3. What are the most high in-demand skills for DAs in the States?
+4. What are the most optimal skills for DAs to learn?
 
 The SQL queries addressing the problem: [click here](sql_project)
 
@@ -14,18 +14,18 @@ The dataset hails from [SQL for Data Analytics](https://www.lukebarousse.com/sql
 
 # Tools and techniques
 In order to fully explore the job market for data analysts, I utilised the following important tools:
-- **SQL**: for querying and analysis of job postings data
+- **SQL**: for querying and analyzing of job postings data
 - **PostgreSQL**: database management system for handling the job posting data.
 - **PowerBI**: for visualizations of findings and insights
 - **VS Code**: an editor for writing and running SQL code.
 - **Git & GitHub**: for project tracking, version control, and script and analysis sharing.
 # Data exploration
-This section explores the dataset to better comprehend what our dataset is about
+This section explores the dataset to better understand what our dataset is about.
 
 ![relational schema of the dataset](Assets/relational_schema.png)
+*The relational schema of the dataset*
 
-
- First, we need to see total number of DA jobs in the USA
+ First, we need to see total number of job postings in the USA
 ```SQL
 SELECT
     COUNT(*) AS number_of_post
@@ -51,7 +51,7 @@ WHERE job_country = 'United States'
 GROUP BY job_title_short
 ORDER BY job_title_count DESC
 ```
-The table below counts the number of each title appeared in all U.S job postings, how much it account for, and the average annual salary for each title:
+The table below counts the number of time that each title mentioned in all U.S job postings, how much percentage it accounts for, and the average annual salary for each title
 
 Job_title | job_title_count | percentage | yearly_salary
 --- | --- | --- | ---
@@ -66,7 +66,9 @@ Software Engineer | 1820 | 0.88 | 134533
 Machine Learning Engineer | 944 | 0.46 | 153525
 Cloud Engineer | 416 | 0.20 | 120091
 
-Let's focus more on the DA jobs, the query below finds the average annual salary for U.S data analysts.
+It is interesting to see that *data analyst*  is the highest in-demand title that takes up to nearly 33% of all job postings in the U.S
+
+Focusing more on the DA jobs, the query below finds the average annual salary for U.S data analysts.
 ```SQL
 SELECT 
       job_title_short,
@@ -88,7 +90,7 @@ GROUP BY job_via
 ORDER BY number_of_post DESC
 LIMIT 5
 ```
-For Data Analyst jobs, most of them are found via LinkedIn, with more than 55000 posts, followed by BeBee, Trabajo.org, ZipRecruiter, and Indeed
+For Data Analyst jobs, most of them are found via LinkedIn, with more than 55000 posts, followed by BeBee, Trabajo.org, ZipRecruiter, and Indeed.
 
 | job_via         | number_of_post |
 |--------------------|-----------------|
@@ -114,7 +116,7 @@ GROUP BY cd.name
 ORDER BY number_of_post DESC
 LIMIT 5
 ```
-From the query, Robert Half seems to have a highest number of posts for DA jobs, with 958 posts in total, followed by Insight Global, Dice, and UnitedHealth Group
+From the query, Robert Half seems to have a highest number of posts for DA jobs, with 958 posts in total, followed by Insight Global, Dice, and UnitedHealth Group.
 
 | name | number_of_post | yearly_salary |
 |------|-----------------|---------------|
@@ -124,24 +126,24 @@ From the query, Robert Half seems to have a highest number of posts for DA jobs,
 | UnitedHealth Group                       | 507             | 103464.29     |
 | Get It Recruit - Information Technology  | 505             | 87612.32      |
 
-Exciting! It is time to start answering the major 4 questions of the DA jobs in the USA
+Exciting! It is time to start addressing the major 4 questions of the DA jobs in the USA
 
 # Analysis
 For this project, each query looked into a different facet of the employment market for data analysts. Here's how I answered each one:
 
 ### 1. What are the highest-paid DA roles in the States?
 
-To find the top 10 highest-paid roles, I filtered data analyst title based on country and average yearly salary
+To find the top 10 highest-paid roles, I filtered *Data Analyst* title based on country and average yearly salary
 
 ```SQL
 SELECT
     job_title,
     job_location,
+    cd.name AS company_name,
+    salary_year_avg,
     job_schedule_type,
     job_work_from_home,
-    salary_year_avg,
-    job_posted_date,
-    cd.name AS company_name
+    job_posted_date
 FROM job_postings_fact
 LEFT JOIN company_dim as cd 
     ON cd.company_id = job_postings_fact.company_id
@@ -151,9 +153,9 @@ WHERE job_title_short = 'Data Analyst' AND
 ORDER BY salary_year_avg DESC
 LIMIT 10
 ```
-- From the result, the top 10 paying DA roles range from $254000 to $375000, with companies like Illuminate Mission Solutions, Citigroup, Torc Robotics offering the highest paying jobs. 
+- From the result, the top 10 paying DA roles range from *$254,000* to *$375,000*, with companies like Illuminate Mission Solutions, Citigroup, Torc Robotics offering the highest paying jobs. 
 
-- *HC Data Analyst, Senior* offered by Illuminate Mission Solutions appears to be the highest-paid in the industry, with $375000 annual salary. 
+- *HC Data Analyst, Senior* and *Sr Data Analyst** offered by Illuminate Mission Solutions appears to be the highest-paid in the industry, with $375000 annual salary. 
 
 | job_title                                                          | job_location     | job_schedule_type | job_work_from_home | salary_year_avg | job_posted_date       | company_name                  |
 |--------------------------------------------------------------------|------------------|---------------|----------------|---------------------|------------------------|--------------------------------|
@@ -214,8 +216,8 @@ Most Common Required Skills for the top 10 Data Analyst roles in the USA:
 
 *Bar graph visualizing the count of skills for the top 10 paying jobs for data analysts, created by PowerBI*
 
-### 3. What are the most high-indemand skills for DA in the States?
-This query helps identify the top 5 highest in demand skills for Data Analyst jobs in the USA, along with the frequency percentages that each skill occured in a job postings
+### 3. What are the most high in-demand skills for DA in the States?
+This query helps identify the top 5 highest in-demand skills for Data Analyst jobs in the USA, along with the frequency percentages that each skill occured in a job postings.
 
 ```SQL
 WITH da_jobs AS (
@@ -244,6 +246,14 @@ GROUP BY sd.skill_id
 ORDER BY number_of_posts DESC
 LIMIT 5
 ```
+| Skills  | Number of Posts | Percentage in Postings | Type          |
+|---------|------------------|------------------------|---------------|
+| SQL     | 34,505           | 50%                    | Programming   |
+| Excel   | 27,576           | 40%                    | Analyst Tools |
+| Tableau | 19,350           | 28%                    | Analyst Tools |
+| Python  | 18,411           | 27%                    | Programming   |
+| R       | 11,670           | 17%                    | Programming   |
+
 From the result, it can be seen that SQL remains the most demanding skills from U.S recruiters, with 34505 posts and accounts for 50% of all job postings, followed by excel (40%), visualization tool Tableau, and Python and R as programming language. 
 
 <img src= "Assets/top_demanding_skills.png" alt="your-image-description" style="border: 2px solid grey;">
@@ -338,7 +348,7 @@ The result from the query gives us some interesting insights:
 - **SQL**: SQL is the most demanded skill for Data Analyst roles in the United States, appearing in 50% of job postings.
 - **Programming Languages**: Python and R are crucial programming skills, reflecting their importance in data manipulation and statistical analysis.
 - **Visualization Tools**: Tableau is highly valued for data visualization, appearing in a significant number of job postings.
-
+- **Excel**: Excel remains a fundamental skill, highlighting its continued relevance in data analysis tasks.
 **3. Optimal Skills for Data Analysts**
 
 - **High-Paying Skills**: Skills such as Spark ($116,324), Hadoop ($114,686), and Snowflake ($112,329) offer the highest salaries in the top 20 skills, indicating a premium for expertise in these areas.

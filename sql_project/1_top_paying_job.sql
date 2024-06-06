@@ -5,11 +5,11 @@ Identify the top 10 highest-paying Data Analyst roles within USA both onsite and
 SELECT
     job_title,
     job_location,
+    cd.name AS company_name,
+    salary_year_avg,
     job_schedule_type,
     job_work_from_home,
-    salary_year_avg,
-    job_posted_date,
-    cd.name AS company_name
+    job_posted_date
 FROM job_postings_fact
 LEFT JOIN company_dim as cd 
     ON cd.company_id = job_postings_fact.company_id
