@@ -3,35 +3,42 @@ Identify the most optimal skills for Data Analyst jobs in the USA based on high 
 
 */
 
--- 1. Identify the average salary for Data Analyst jobs in the USA
+WITH average_salary AS (
+  SELECT 
+      job_title_short,
+      AVG(salary_year_avg) AS average
+  FROM job_postings_fact
+  WHERE job_title_short = 'Data Analyst' AND
+      job_country = 'United States' 
+  GROUP BY job_title_short
+),
+
+well_paid_skills AS (
+  SELECT 
+      sd.skills,
+      ROUND(AVG(job_postings.salary_year_avg), 0) AS "Yearly Salary",
+      COUNT(skills_job_dim.job_id) AS number_of_posts
+  FROM skills_job_dim
+  JOIN skills_dim AS sd
+      ON sd.skill_id = skills_job_dim.skill_id
+  JOIN job_postings_fact AS job_postings
+      ON job_postings.job_id = skills_job_dim.job_id
+  WHERE job_postings.job_title_short = 'Data Analyst' AND 
+      job_postings.salary_year_avg IS NOT NULL AND
+      job_postings.job_country = 'United States'
+  GROUP BY sd.skill_id, sd.skills
+  HAVING ROUND(AVG(job_postings.salary_year_avg), 0) > 95000
+  ORDER BY number_of_posts DESC
+  
+)
+
 SELECT 
-    job_title_short,
-    ROUND(AVG(salary_year_avg),0)
-FROM job_postings_fact
-WHERE job_title_short = 'Data Analyst' AND
-    job_country = 'United States' 
-GROUP BY job_title_short;
-
--- The average salary for DA jobs in the USA is $94504, therefore, salary greater than $95000 is considered 'high'
-
--- Identify the skills that are well-paid (> $95000) and high-demanded
-SELECT 
-    sd.skills,
-    ROUND(AVG(job_postings.salary_year_avg),0) AS "Yearly Salary",
-    COUNT(skills_job_dim.job_id) AS number_of_posts
-FROM skills_job_dim
-JOIN skills_dim as sd
-    ON sd.skill_id = skills_job_dim.skill_id
-JOIN job_postings_fact AS job_postings
-    ON job_postings.job_id = skills_job_dim.job_id
-
-WHERE job_postings.job_title_short = 'Data Analyst' AND 
-    salary_year_avg IS NOT NULL AND
-    job_postings.job_country = 'United States' 
-GROUP BY sd.skill_id
-HAVING ROUND(AVG(job_postings.salary_year_avg),0) > 95000
-ORDER BY number_of_posts DESC
-LIMIT 20;
+    ws.skills,
+    ws."Yearly Salary",
+    ws.number_of_posts,
+    ROUND(ws."Yearly Salary" * 100/ average_salary.average, 2) AS percentage_compared_to_average
+FROM well_paid_skills AS ws
+CROSS JOIN average_salary;
 
 /*
 Top 20 skills that are well-paid (salary > $95000) and highly demanding (times appeared in job postings) for DA roles in the USA:
